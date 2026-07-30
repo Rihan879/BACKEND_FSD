@@ -1,33 +1,63 @@
 //promises for asynchronous
 //js single threaded
-const Promise1=new Promise((resolve,reject)=>{
-    setTimeout(()=>{
-    resolve("Arigato");
- },2000);
- console.log("promise task1 ");
-resolve("Promises passed by using resolve");
-let msg=true;
-if(!msg==true){
-    console.log("msg using promise failed");
-} else{
-    console.log("error...");
-}
-});
-Promise1.then((result)=>{
-console.log(result);
-});
+// const Promise1=new Promise((resolve,reject)=>{
+//     setTimeout(()=>{
+//     resolve("Arigato");
+//  },2000);
+//  console.log("promise task1 ");
+// resolve("Promises passed by using resolve");
+// let msg=true;
+// if(!msg==true){
+//     console.log("msg using promise failed");
+// } else{
+//     console.log("error...");
+// }
+// });
+// Promise1.then((result)=>{
+// console.log(result);
+// });
 
 // .catch((error)=>{
 // console.log(error);
 // });
 
 //asych await
-console.log("1");
-async function test(){
-    console.log("2");
-    await console.log("3");
-    console.log("4");
+// console.log("1");
+// async function test(){
+//     console.log("2");
+//     await console.log("3");
+//     console.log("4");
 
-};
+// };
+// t1=test();
+// console.log("5");
+
+//create promises that will print username and password using 
+//and if username and password not found then it will call
+//reject state and print error.......
+
+
+const login = new Promise((resolve, reject) => {
+    let username = "Rahul";
+    let password = "12345";
+
+    if (username === "Rahul" && password === "12345") {
+        resolve("Login Successful");
+    } else {
+        reject("Invalid Username or Password");
+    }
+});
+
+login
+    .then((message) => {
+        console.log(message);
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+
+async function test(){
+    console.log("message:2");
+    fetch()
+}
 test();
-console.log("5");
