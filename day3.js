@@ -37,27 +37,33 @@
 //reject state and print error.......
 
 
-const login = new Promise((resolve, reject) => {
-    let username = "Rahul";
-    let password = "12345";
+// const login = new Promise((resolve, reject) => {
+//     let username = "Rahul";
+//     let password = "12345";
 
-    if (username === "Rahul" && password === "12345") {
-        resolve("Login Successful");
-    } else {
-        reject("Invalid Username or Password");
-    }
-});
+//     if (username === "Rahul" && password === "12345") {
+//         resolve("Login Successful");
+//     } else {
+//         reject("Invalid Username or Password");
+//     }
+// });
 
-login
-    .then((message) => {
-        console.log(message);
-    })
-    .catch((error) => {
-        console.log(error);
-    });
+// login
+//     .then((message) => {
+//         console.log(message);
+//     })
+//     .catch((error) => {
+//         console.log(error);
+//     });
 
 async function test(){
     console.log("message:2");
-    fetch()
+    const response = await fetch("./student.json");
+    console.log(response.status);
+    const stdn = await response.json();
+    console.log("message:3");
+    return stdn;
 }
-test();
+test().then((res)=>{
+    console.log(res);
+});
