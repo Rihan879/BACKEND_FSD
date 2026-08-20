@@ -1,0 +1,13 @@
+{
+  "name": "httpmodule",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Myserver.js",
+  "scripts": {
+    "start": "node Myserver.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module"
+}
