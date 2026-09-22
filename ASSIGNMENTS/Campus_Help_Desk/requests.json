@@ -1,0 +1,33 @@
+[
+  {
+    "id": 1,
+    "studentName": "Aarav Sharma",
+    "email": "aarav.sharma@campus.edu",
+    "category": "Hostel",
+    "description": "Hot water geyser not functioning in Hostel Block B, 3rd floor bathroom.",
+    "priority": "High",
+    "status": "In Progress",
+    "createdAt": "2026-09-22T08:30:00.000Z"
+  },
+  {
+    "id": 3,
+    "studentName": "Rihan",
+    "email": "rihansaifi0687@gmail.com",
+    "category": "Wi-Fi / IT",
+    "description": "WiFI is not working",
+    "priority": "Urgent",
+    "status": "Resolved",
+    "createdAt": "2026-09-22T04:32:45.969Z",
+    "updatedAt": "2026-09-22T05:44:21.762Z"
+  },
+  {
+    "id": 4,
+    "studentName": "Rahul Kumar Bisoyi",
+    "email": "rahulkumar2471@gmail.com",
+    "category": "Canteen",
+    "description": "There is not sufficient space in Canteen, During Lunch Break there is too much rush",
+    "priority": "Medium",
+    "status": "Open",
+    "createdAt": "2026-09-22T05:48:26.422Z"
+  }
+]
