@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "studentName": "Aarav Sharma",
+    "email": "aarav.sharma@campus.edu",
+    "category": "Hostel",
+    "description": "Hot water geyser not functioning in Hostel Block B, 3rd floor bathroom.",
+    "priority": "High",
+    "status": "In Progress",
+    "createdAt": "2026-09-22T08:30:00.000Z"
+  },
+  {
+    "id": 2,
+    "studentName": "Priya Patel",
+    "email": "priya.p@campus.edu",
+    "category": "Wi-Fi / IT",
+    "description": "Unable to connect to campus high-speed Wi-Fi in the central library reading hall.",
+    "priority": "Medium",
+    "status": "Open",
+    "createdAt": "2026-09-22T09:00:00.000Z"
+  }
+]
