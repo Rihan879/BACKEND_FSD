@@ -1,15 +1,5 @@
 [
   {
-    "id": 1,
-    "studentName": "Aarav Sharma",
-    "email": "aarav.sharma@campus.edu",
-    "category": "Hostel",
-    "description": "Hot water geyser not functioning in Hostel Block B, 3rd floor bathroom.",
-    "priority": "High",
-    "status": "In Progress",
-    "createdAt": "2026-09-22T08:30:00.000Z"
-  },
-  {
     "id": 3,
     "studentName": "Rihan",
     "email": "rihansaifi0687@gmail.com",
@@ -29,5 +19,16 @@
     "priority": "Medium",
     "status": "Open",
     "createdAt": "2026-09-22T05:48:26.422Z"
+  },
+  {
+    "id": 5,
+    "studentName": "Pranjal Singh",
+    "email": "pranjal999@gmail.com",
+    "category": "Hostel",
+    "description": "Room no. 5 on third floor is leaking Water",
+    "priority": "High",
+    "status": "In Progress",
+    "createdAt": "2026-09-24T09:37:46.285Z",
+    "updatedAt": "2026-09-24T09:37:50.762Z"
   }
 ]
