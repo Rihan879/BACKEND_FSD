@@ -1,0 +1,166 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                     CSS TRICKS & TIPS — Developer Reference                 ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  CSS CUSTOM PROPERTIES (VARIABLES)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  :root {
+    --primary: #6c63ff;
+    --bg: #0f1117;
+    --radius: 12px;
+  }
+
+  .btn { background: var(--primary); border-radius: var(--radius); }
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  FLEXBOX CHEATSHEET
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  .container {
+    display: flex;
+    flex-direction: row | column;
+    justify-content: flex-start | center | flex-end | space-between | space-around;
+    align-items: stretch | center | flex-start | flex-end;
+    flex-wrap: wrap | nowrap;
+    gap: 16px;
+  }
+
+  /* Center anything perfectly */
+  .center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  CSS GRID
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  /* Auto-fill responsive grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+  }
+
+  /* Named areas */
+  .layout {
+    display: grid;
+    grid-template-areas:
+      "header header"
+      "sidebar main"
+      "footer footer";
+    grid-template-columns: 240px 1fr;
+  }
+  .header  { grid-area: header; }
+  .sidebar { grid-area: sidebar; }
+  .main    { grid-area: main; }
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  RESPONSIVE DESIGN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  /* Mobile first approach */
+  .card { font-size: 0.875rem; }          /* base (mobile) */
+
+  @media (min-width: 768px) {             /* tablet */
+    .card { font-size: 1rem; }
+  }
+
+  @media (min-width: 1024px) {            /* desktop */
+    .card { font-size: 1.125rem; }
+  }
+
+  /* Fluid typography */
+  h1 { font-size: clamp(1.5rem, 4vw, 3rem); }
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  TRANSITIONS & ANIMATIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  /* Smooth transition */
+  .btn {
+    transition: background 0.2s ease, transform 0.15s ease;
+  }
+  .btn:hover { transform: translateY(-2px); }
+
+  /* Keyframe animation */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .card { animation: fadeIn 0.3s ease forwards; }
+
+  /* Pulse animation */
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.5; }
+  }
+  .loading { animation: pulse 1.5s infinite; }
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  UTILITY CLASSES (Mini Tailwind)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  .flex   { display: flex; }
+  .grid   { display: grid; }
+  .hidden { display: none; }
+  .mt-4   { margin-top: 1rem; }
+  .p-4    { padding: 1rem; }
+  .text-center { text-align: center; }
+  .rounded { border-radius: 0.5rem; }
+  .shadow  { box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  PSEUDO-CLASSES & PSEUDO-ELEMENTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  a:hover, a:focus, a:visited    /* state selectors */
+  li:first-child, li:last-child  /* position selectors */
+  input:checked, input:disabled  /* form state selectors */
+
+  p::before { content: "→ "; color: blue; }
+  p::after  { content: " ✓"; }
+  p::first-line { font-weight: bold; }
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  GRADIENTS & SHADOWS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  /* Linear gradient */
+  background: linear-gradient(135deg, #6c63ff 0%, #a78bfa 100%);
+
+  /* Gradient text */
+  .gradient-text {
+    background: linear-gradient(90deg, #6c63ff, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Multiple box shadows */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12),
+              0 4px 16px rgba(0,0,0,0.08);
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  SCROLLBAR STYLING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #1a1d27; }
+  ::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #666; }
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  POSITIONING TRICKS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  /* Sticky header */
+  header { position: sticky; top: 0; z-index: 100; }
+
+  /* Full-screen overlay */
+  .overlay {
+    position: fixed;
+    inset: 0;         /* top:0; right:0; bottom:0; left:0 */
+    background: rgba(0,0,0,0.6);
+  }
+
+  /* Centering with position absolute */
+  .centered {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+  }

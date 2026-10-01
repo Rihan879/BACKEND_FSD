@@ -1,0 +1,107 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                   GIT COMMANDS REFERENCE — Version Control                  ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  SETUP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  git config --global user.name  "Your Name"
+  git config --global user.email "you@example.com"
+  git config --global core.editor "code --wait"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  STARTING A REPO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  git init                      # new local repo
+  git clone <url>               # clone remote repo
+  git clone <url> my-folder     # clone into specific folder
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  STAGING & COMMITTING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  git status                    # check working tree status
+  git add .                     # stage all changes
+  git add <file>                # stage specific file
+  git add -p                    # stage hunks interactively
+  git commit -m "message"       # commit with message
+  git commit -am "message"      # stage tracked + commit
+  git commit --amend            # edit last commit
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  BRANCHES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  git branch                    # list branches
+  git branch -a                 # list all (including remote)
+  git branch feature/login      # create branch
+  git checkout feature/login    # switch to branch
+  git checkout -b feature/login # create + switch
+  git switch -c feature/login   # modern syntax
+  git branch -d feature/login   # delete (safe)
+  git branch -D feature/login   # force delete
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  MERGING & REBASING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  git merge feature/login       # merge into current branch
+  git merge --no-ff feature/login  # always create merge commit
+  git rebase main               # rebase current onto main
+  git rebase -i HEAD~3          # interactive rebase (last 3 commits)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  REMOTE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  git remote -v                 # list remotes
+  git remote add origin <url>   # add remote
+  git push origin main          # push to remote
+  git push -u origin main       # push + set upstream
+  git pull                      # fetch + merge
+  git pull --rebase             # fetch + rebase
+  git fetch                     # fetch only (no merge)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  UNDOING CHANGES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  git restore <file>            # discard working changes
+  git restore --staged <file>   # unstage file
+  git reset HEAD~1              # undo last commit (keep changes)
+  git reset --hard HEAD~1       # undo + discard changes (DANGEROUS)
+  git revert <commit-hash>      # safe undo (new commit)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  STASHING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  git stash                     # stash uncommitted changes
+  git stash push -m "WIP login" # stash with label
+  git stash list                # view stashes
+  git stash pop                 # apply last stash + remove
+  git stash apply stash@{1}     # apply specific stash
+  git stash drop stash@{0}      # delete a stash
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  LOGS & HISTORY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  git log --oneline             # compact log
+  git log --oneline --graph     # visual branch graph
+  git log -n 5                  # last 5 commits
+  git log --author="Rihan"      # filter by author
+  git diff                      # unstaged changes
+  git diff --staged             # staged changes
+  git show <hash>               # show commit details
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  TAGS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  git tag v1.0.0                # lightweight tag
+  git tag -a v1.0.0 -m "Release 1.0"  # annotated tag
+  git push origin v1.0.0        # push tag
+  git push origin --tags        # push all tags
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  .GITIGNORE TIPS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  node_modules/
+  .env
+  dist/
+  .DS_Store
+  *.log
+  coverage/

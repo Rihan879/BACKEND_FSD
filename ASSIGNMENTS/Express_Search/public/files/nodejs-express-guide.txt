@@ -1,0 +1,146 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║             NODE.JS & EXPRESS — Beginner's Guide to REST APIs               ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  WHAT IS NODE.JS?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Node.js is a JavaScript runtime built on Chrome's V8 engine.
+  It lets you run JavaScript on the server side.
+  Key features: Non-blocking I/O, event-driven, fast, NPM ecosystem.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  SETUP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  $ npm init -y              # initialize project
+  $ npm install express      # install Express
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  BASIC EXPRESS SERVER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  import express from "express";
+  const app = express();
+  const PORT = 3000;
+
+  app.use(express.json());           // parse JSON bodies
+  app.use(express.urlencoded({ extended: true }));
+
+  app.get("/", (req, res) => {
+    res.send("Hello World!");
+  });
+
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  HTTP METHODS (CRUD)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  GET    /users         → Read all users
+  GET    /users/:id     → Read single user
+  POST   /users         → Create new user
+  PUT    /users/:id     → Update (replace) user
+  PATCH  /users/:id     → Partial update
+  DELETE /users/:id     → Delete user
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ROUTE PARAMETERS & QUERY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // Route param: /users/42
+  app.get("/users/:id", (req, res) => {
+    const { id } = req.params;
+    res.json({ id });
+  });
+
+  // Query string: /search?q=node&page=2
+  app.get("/search", (req, res) => {
+    const { q, page = 1 } = req.query;
+    res.json({ query: q, page });
+  });
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  REQUEST BODY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  app.post("/users", (req, res) => {
+    const { name, email } = req.body;
+    // save to database...
+    res.status(201).json({ message: "User created", name });
+  });
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  STATUS CODES TO USE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  200 OK           → successful GET / PATCH / DELETE
+  201 Created      → successful POST
+  400 Bad Request  → invalid input
+  401 Unauthorized → not logged in
+  403 Forbidden    → no permission
+  404 Not Found    → resource missing
+  500 Server Error → unexpected error
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  MIDDLEWARE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // Custom middleware
+  function logger(req, res, next) {
+    console.log(`${req.method} ${req.url}`);
+    next(); // MUST call next()
+  }
+  app.use(logger);
+
+  // Route-specific middleware
+  app.get("/admin", authMiddleware, (req, res) => {
+    res.send("Admin panel");
+  });
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ERROR HANDLING MIDDLEWARE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // Must have 4 parameters (err, req, res, next)
+  app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: err.message });
+  });
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXPRESS ROUTER (Modular Routes)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // routes/users.js
+  import { Router } from "express";
+  const router = Router();
+
+  router.get("/",    getAllUsers);
+  router.get("/:id", getUserById);
+  router.post("/",   createUser);
+
+  export default router;
+
+  // server.js
+  import userRoutes from "./routes/users.js";
+  app.use("/api/users", userRoutes);
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  CORS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  $ npm install cors
+
+  import cors from "cors";
+  app.use(cors());                     // allow all
+  app.use(cors({ origin: "http://localhost:5173" })); // specific origin
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  SERVING STATIC FILES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  app.use(express.static("public")); // serves files from /public folder
+  app.use("/assets", express.static("assets"));
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  BEST PRACTICES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ✔ Keep routes in separate files
+  ✔ Use environment variables (.env + dotenv)
+  ✔ Validate input (joi / zod / express-validator)
+  ✔ Use async/await with try-catch
+  ✔ Never expose stack traces in production
+  ✔ Use helmet for security headers
+  ✔ Rate-limit sensitive endpoints

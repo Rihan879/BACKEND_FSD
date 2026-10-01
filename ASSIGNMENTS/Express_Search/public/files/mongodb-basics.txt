@@ -1,0 +1,133 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                        MONGODB BASICS — Getting Started                     ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  WHAT IS MONGODB?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  MongoDB is a NoSQL document database.
+  Data is stored as flexible JSON-like documents (BSON).
+  No fixed schema — each document can have different fields.
+
+  Key concepts:
+  • Database  → Collection of collections
+  • Collection → Like a SQL table
+  • Document  → Like a SQL row (JSON object)
+  • Field     → Like a SQL column
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  INSTALLATION & CONNECTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  npm install mongoose       # Mongoose ODM (recommended)
+
+  import mongoose from "mongoose";
+
+  await mongoose.connect("mongodb://localhost:27017/mydb");
+  // or Atlas:
+  await mongoose.connect("mongodb+srv://user:pass@cluster.mongodb.net/mydb");
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  DEFINING A SCHEMA & MODEL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  import { Schema, model } from "mongoose";
+
+  const userSchema = new Schema({
+    name:      { type: String, required: true, trim: true },
+    email:     { type: String, required: true, unique: true, lowercase: true },
+    age:       { type: Number, min: 0, max: 120 },
+    role:      { type: String, enum: ["user","admin"], default: "user" },
+    createdAt: { type: Date, default: Date.now },
+  });
+
+  const User = model("User", userSchema);
+  export default User;
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  CREATE (INSERT)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // Single document
+  const user = await User.create({ name: "Rihan", email: "r@test.com" });
+
+  // Instance method
+  const u = new User({ name: "Alex", email: "alex@test.com" });
+  await u.save();
+
+  // Many documents
+  await User.insertMany([{ name: "A" }, { name: "B" }]);
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  READ (QUERY)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  const all   = await User.find();
+  const admins = await User.find({ role: "admin" });
+  const one   = await User.findById("64f...abc");
+  const byEmail = await User.findOne({ email: "r@test.com" });
+
+  // Select fields, sort, skip, limit
+  const users = await User.find({ age: { $gte: 18 } })
+    .select("name email -_id")
+    .sort({ name: 1 })
+    .skip(10)
+    .limit(5);
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUERY OPERATORS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  $eq, $ne         → equal / not equal
+  $gt, $gte        → greater than / greater or equal
+  $lt, $lte        → less than / less or equal
+  $in              → value in array
+  $nin             → not in array
+  $and, $or        → logical operators
+  $regex           → pattern match
+  $exists          → field exists check
+
+  Examples:
+  User.find({ age: { $gte: 18, $lte: 60 } })
+  User.find({ name: { $regex: /rihan/i } })
+  User.find({ $or: [{ role: "admin" }, { age: { $gt: 30 } }] })
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  UPDATE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // Find by ID and update
+  await User.findByIdAndUpdate(id, { name: "NewName" }, { new: true });
+
+  // Update one matching document
+  await User.updateOne({ email: "r@test.com" }, { $set: { role: "admin" } });
+
+  // Update all matching
+  await User.updateMany({ role: "user" }, { $inc: { loginCount: 1 } });
+
+  Update operators:
+  $set    → set field value
+  $unset  → remove field
+  $inc    → increment number
+  $push   → push to array
+  $pull   → remove from array
+  $addToSet → add to array if not exists
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  DELETE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  await User.findByIdAndDelete(id);
+  await User.deleteOne({ email: "r@test.com" });
+  await User.deleteMany({ role: "user" });
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  AGGREGATION PIPELINE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  const result = await User.aggregate([
+    { $match:  { role: "user" } },           // filter
+    { $group:  { _id: "$role", count: { $sum: 1 } } },  // group
+    { $sort:   { count: -1 } },              // sort
+    { $limit:  5 },                          // limit results
+    { $project: { role: "$_id", count: 1 } } // shape output
+  ]);
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  INDEXING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  userSchema.index({ email: 1 });          // single field
+  userSchema.index({ name: 1, age: -1 });  // compound index
+  userSchema.index({ name: "text" });      // text search index

@@ -1,0 +1,91 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║               HTTP STATUS CODES — Complete Reference                        ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  1xx — INFORMATIONAL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  100 Continue           → Client should proceed with request
+  101 Switching Protocols → Server switching protocols (e.g. WebSocket)
+  103 Early Hints        → Preload resources before final response
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  2xx — SUCCESS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  200 OK                 → Request succeeded. Default success.
+  201 Created            → Resource created (use after POST)
+  202 Accepted           → Request received, processing async
+  204 No Content         → Success but no body (use after DELETE)
+  206 Partial Content    → Range request satisfied (file streaming)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  3xx — REDIRECTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  301 Moved Permanently  → Resource permanently at new URL
+  302 Found              → Temporary redirect
+  304 Not Modified       → Use cached version (no body sent)
+  307 Temporary Redirect → Redirect, keep same HTTP method
+  308 Permanent Redirect → Redirect, keep same HTTP method (permanent)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  4xx — CLIENT ERRORS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  400 Bad Request        → Invalid syntax / malformed request body
+  401 Unauthorized       → Not authenticated (must log in)
+  402 Payment Required   → Payment needed to proceed
+  403 Forbidden          → Authenticated but no permission
+  404 Not Found          → Resource doesn't exist
+  405 Method Not Allowed → HTTP method not supported on this route
+  406 Not Acceptable     → Accept headers incompatible
+  408 Request Timeout    → Client took too long to send request
+  409 Conflict           → Conflict with current resource state (e.g. duplicate email)
+  410 Gone               → Resource permanently removed
+  411 Length Required    → Content-Length header required
+  413 Payload Too Large  → Request body exceeds limit
+  414 URI Too Long       → URL exceeds max length
+  415 Unsupported Media  → Wrong Content-Type (e.g. expected JSON)
+  422 Unprocessable      → Validation failed (semantic error)
+  423 Locked             → Resource is locked
+  429 Too Many Requests  → Rate limit exceeded
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  5xx — SERVER ERRORS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  500 Internal Server Error → Unexpected server error
+  501 Not Implemented       → Method not supported by server
+  502 Bad Gateway           → Upstream server returned invalid response
+  503 Service Unavailable   → Server down / overloaded / maintenance
+  504 Gateway Timeout       → Upstream server timed out
+  505 HTTP Version Not Supported → Server doesn't support HTTP version
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  USAGE GUIDE FOR REST APIs
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Operation          HTTP Method   Success    Error
+  ──────────────     ───────────   ───────    ─────────────────────
+  Get all resources  GET           200         404 (collection missing)
+  Get one resource   GET           200         404 (not found)
+  Create resource    POST          201         400/422 (invalid input)
+                                              409 (duplicate)
+  Update resource    PUT/PATCH     200         400/422 (invalid)
+                                              404 (not found)
+  Delete resource    DELETE        204         404 (not found)
+  Login              POST          200         401 (wrong credentials)
+  Access protected   GET/POST      200         401 (not logged in)
+                                              403 (no permission)
+  Rate-limited route GET/POST      200         429 (too many requests)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  IN EXPRESS.JS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  res.status(200).json({ data });
+  res.status(201).json({ message: "Created", id: newDoc._id });
+  res.status(204).send();
+  res.status(400).json({ error: "Invalid request" });
+  res.status(401).json({ error: "Please log in" });
+  res.status(403).json({ error: "Access denied" });
+  res.status(404).json({ error: "Not found" });
+  res.status(422).json({ error: "Validation failed", details: errors });
+  res.status(429).json({ error: "Too many requests, slow down" });
+  res.status(500).json({ error: "Internal server error" });

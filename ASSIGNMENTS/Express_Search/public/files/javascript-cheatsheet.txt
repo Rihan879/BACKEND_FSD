@@ -1,0 +1,157 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║              JAVASCRIPT ES6+ CHEATSHEET — Quick Reference                   ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  VARIABLES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  let   name = "Rihan";       // block-scoped, reassignable
+  const PI   = 3.14;          // block-scoped, constant
+  var   old  = true;          // function-scoped (avoid)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ARROW FUNCTIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  const add  = (a, b) => a + b;
+  const greet = name => `Hello, ${name}!`;
+  const log  = () => console.log("hi");
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  DESTRUCTURING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // Array
+  const [a, b, ...rest] = [1, 2, 3, 4];
+
+  // Object
+  const { name, age, city = "Delhi" } = user;
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  SPREAD & REST
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  const arr2 = [...arr1, 5, 6];
+  const obj2 = { ...obj1, key: "value" };
+
+  function sum(...nums) {
+    return nums.reduce((a, b) => a + b, 0);
+  }
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  TEMPLATE LITERALS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  const msg = `Hello ${name}, you are ${age} years old.`;
+  const multiline = `
+    Line 1
+    Line 2
+  `;
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ARRAY METHODS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  .map(fn)       → new array with transformed values
+  .filter(fn)    → new array with matching values
+  .reduce(fn, x) → single accumulated value
+  .find(fn)      → first match or undefined
+  .findIndex(fn) → index of first match or -1
+  .some(fn)      → true if any match
+  .every(fn)     → true if all match
+  .flat(depth)   → flatten nested arrays
+  .flatMap(fn)   → map + flat(1)
+  .includes(val) → boolean
+
+  Examples:
+  const doubled  = [1,2,3].map(n => n * 2);       // [2,4,6]
+  const evens    = [1,2,3,4].filter(n => n%2===0); // [2,4]
+  const sum      = [1,2,3].reduce((a,b) => a+b,0); // 6
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OBJECT METHODS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Object.keys(obj)       → array of keys
+  Object.values(obj)     → array of values
+  Object.entries(obj)    → array of [key,value] pairs
+  Object.assign(t, src)  → shallow copy/merge
+  Object.freeze(obj)     → immutable object
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  PROMISES & ASYNC/AWAIT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // Promise
+  fetch(url)
+    .then(res => res.json())
+    .then(data => console.log(data))
+    .catch(err => console.error(err));
+
+  // Async/Await
+  async function getData(url) {
+    try {
+      const res  = await fetch(url);
+      const data = await res.json();
+      return data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  MODULES (ES6)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // Export
+  export const PI = 3.14;
+  export default function greet() {}
+
+  // Import
+  import greet, { PI } from "./utils.js";
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  CLASSES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  class Animal {
+    #name;  // private field
+    constructor(name) { this.#name = name; }
+    speak() { return `${this.#name} makes a sound.`; }
+    static create(n) { return new Animal(n); }
+  }
+
+  class Dog extends Animal {
+    speak() { return super.speak() + " Woof!"; }
+  }
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OPTIONAL CHAINING & NULLISH COALESCING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  const city  = user?.address?.city;      // safe access
+  const name  = user.name ?? "Anonymous"; // fallback if null/undefined
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  MAP & SET
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  const map = new Map();
+  map.set("key", "value");
+  map.get("key");      // "value"
+  map.has("key");      // true
+
+  const set = new Set([1, 2, 2, 3]); // {1, 2, 3}
+  set.add(4); set.delete(1);
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  SYMBOL & GENERATORS (Advanced)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  const sym = Symbol("id");
+
+  function* counter() {
+    let i = 0;
+    while (true) yield i++;
+  }
+  const gen = counter();
+  gen.next().value; // 0, 1, 2, ...
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  USEFUL STRING METHODS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  str.includes("text")    → boolean
+  str.startsWith("he")    → boolean
+  str.endsWith("ld")      → boolean
+  str.padStart(5, "0")    → "00042"
+  str.trimStart()         → removes leading spaces
+  str.replaceAll("a","b") → replaces all occurrences
+  str.split(",")          → array
